@@ -1,12 +1,54 @@
 # Kubernetes Expense Tracker Monitoring
 
+A production-style DevOps project demonstrating the deployment, scaling, monitoring and alerting of a Java Spring Boot Expense Tracker application on a K3s Kubernetes cluster.
+
+The application is containerized using Docker, deployed on Kubernetes with MySQL as the backend database, and monitored using Prometheus, Grafana, Node Exporter and kube-state-metrics.
+
+Spring Boot Actuator with Micrometer exposes application and JVM metrics which are scraped by Prometheus and visualized through Grafana dashboards.
+
+---
+
 ## 📌 Project Overview
 
-This project demonstrates the deployment and monitoring of a Java Spring Boot Expense Tracker application on a K3s Kubernetes cluster.
+This project combines two major DevOps areas:
 
-The application is containerized using Docker and deployed on Kubernetes with MySQL as the backend database.
+### Phase 1 — Kubernetes Deployment
 
-The project implements Kubernetes deployment, persistent storage, health monitoring, scaling, rolling updates, rollback, Prometheus monitoring, Grafana dashboards and alerting.
+- Kubernetes cluster using K3s
+- Namespace isolation
+- ConfigMap
+- Kubernetes Secrets
+- MySQL Deployment
+- PersistentVolumeClaim
+- MySQL ClusterIP Service
+- Spring Boot Expense Tracker Deployment
+- Resource requests and limits
+- Liveness Probe
+- Readiness Probe
+- NodePort Service
+- Pod scaling
+- Rolling Updates
+- Rollbacks
+- Horizontal Pod Autoscaler
+- Ingress with Traefik
+
+### Phase 2 — Monitoring & Observability
+
+- Prometheus
+- Node Exporter
+- kube-state-metrics
+- Grafana
+- Spring Boot Actuator
+- Micrometer Prometheus Registry
+- Application metrics
+- JVM metrics
+- CPU monitoring
+- Memory monitoring
+- Pod monitoring
+- Kubernetes node monitoring
+- Grafana dashboards
+- Grafana Alerting
+- Email notification
 
 ---
 
@@ -143,19 +185,28 @@ The dashboard includes monitoring for:
 - Kubernetes Node CPU
 - Kubernetes Node Memory
 
-![Grafana Dashboard](docs/10-grafana-dashboard.png)
+# Grafana — Application & JVM Monitoring
+![Grafana JVM Dashboard](docs/10-grafana-dashboard.png)
 
-### Additional Grafana Dashboard
 
-![Grafana Monitoring Dashboard](docs/11-grafana-dashboard.png)
-
+# Grafana — Kubernetes Infrastructure Monitoring
+![Grafana Kubernetes Dashboard](docs/11-grafana-dashboard.png)
 ---
 
 # 🔥 Prometheus
 
 Prometheus collects metrics from the Spring Boot application and Kubernetes monitoring components.
 
+![Prometheus Targets](docs/12-Prometheus-Targets.png)
 Spring Boot exposes application metrics through:
 
 ```text
 /actuator/prometheus
+
+---
+
+# 👨‍💻 Author
+
+**Rakesh Sharma**
+
+DevOps / Cloud Engineer
