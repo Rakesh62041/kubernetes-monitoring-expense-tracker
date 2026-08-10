@@ -56,43 +56,7 @@ This project combines two major DevOps areas:
 
 ![Project Architecture](docs/01-Architecture-image.png)
 
-## Architecture Flow
 
-```text
-                         USER
-                           |
-                           v
-                    Ingress / NodePort
-                           |
-                           v
-              +-------------------------+
-              |  Spring Boot Application|
-              |    Expense Tracker      |
-              +-------------------------+
-                           |
-                 +---------+---------+
-                 |                   |
-                 v                   v
-              MySQL              Actuator
-                 |                   |
-                 v                   v
-          Persistent Volume       Micrometer
-                                     |
-                                     v
-                                Prometheus
-                                     |
-                 +-------------------+-------------------+
-                 |                   |                   |
-                 v                   v                   v
-          Node Exporter      kube-state-metrics    Application
-                 |                   |               Metrics
-                 +-------------------+-------------------+
-                                     |
-                                     v
-                                  Grafana
-                                     |
-                                     v
-                              Alerting / Email
 ```
 
 ---
@@ -476,22 +440,7 @@ Email notification is configured through the Grafana contact point.
 ```text
 kubernetes-monitoring-expense-tracker/
 │
-├── architecture/
-│
-├── docs/
-│   ├── 01-Architecture-image.png
-│   ├── 02-home-page.png
-│   ├── 03-login.png
-│   ├── 04-expense-added.png
-│   ├── 05-Pods-image.png.jpeg
-│   ├── 06-deployment.png.jpeg
-│   ├── 07-quality-check.png.jpeg
-│   ├── 08-kubernetes-deployment-and-monitoring-status.png.jpeg
-│   ├── 09-grafana-alerting.png
-│   ├── 10-grafana-dashboard.png
-│   ├── 11-grafana-dashboard.png
-│   └── 12-Prometheus-Targets.png
-│
+├──
 ├── k8s/
 │   ├── namespace.yaml
 │   ├── configmap.yaml
@@ -599,12 +548,6 @@ Open Grafana and verify:
 
 # Project Screenshots
 
-## 1. Project Architecture
-
-![Project Architecture](docs/01-Architecture-image.png)
-
----
-
 ## 2. Expense Tracker Home Page
 
 ![Expense Tracker Home Page](docs/02-home-page.png)
@@ -627,17 +570,23 @@ Open Grafana and verify:
 
 ![Kubernetes Pods](docs/05-Pods-image.png.jpeg)
 
+Application and database pods running inside the `expense-tracker` namespace.
+
 ---
 
 ## 6. Kubernetes Deployment
 
 ![Kubernetes Deployment](docs/06-deployment.png.jpeg)
 
+Deployment objects for the Spring Boot application and MySQL, managed via Kubernetes.
+
 ---
 
-## 7. SonarQube Quality Check
+## 7. Deployment Quality Check
 
-![SonarQube Quality Check](docs/07-quality-check.png.jpeg)
+![Deployment Quality Check](docs/07-quality-check.png.jpeg)
+
+The application deployment and Kubernetes configuration were verified using `kubectl` commands and application health checks (`/actuator/health`).
 
 ---
 
@@ -645,11 +594,24 @@ Open Grafana and verify:
 
 ![Kubernetes Deployment and Monitoring Status](docs/08-kubernetes-deployment-and-monitoring-status.png.jpeg)
 
+A complete Kubernetes monitoring stack was implemented, combining:
+
+- Prometheus
+- Grafana
+- Node Exporter
+- kube-state-metrics
+- Spring Boot Actuator
+- Micrometer
+
+Together these collect application, JVM, pod, and Kubernetes node metrics.
+
 ---
 
 ## 9. Grafana Alerting
 
 ![Grafana Alerting](docs/09-grafana-alerting.png)
+
+Grafana Alerting is configured to monitor the availability of the Expense Tracker application. The alert uses the Prometheus `up` metric to detect whether the application is available, firing when `up < 1`.
 
 ---
 
@@ -657,11 +619,26 @@ Open Grafana and verify:
 
 ![Grafana Application and JVM Monitoring](docs/10-grafana-dashboard.png)
 
+Grafana is connected to Prometheus and visualizes application-level metrics, including:
+
+- JVM CPU usage
+- JVM memory usage
+- HTTP request rate
+- Application uptime
+- Application availability
+
 ---
 
 ## 11. Grafana — Kubernetes Infrastructure Monitoring
 
 ![Grafana Kubernetes Infrastructure Monitoring](docs/11-grafana-dashboard.png)
+
+This dashboard covers cluster-level metrics, including:
+
+- Running pods
+- Pod status
+- Kubernetes node CPU
+- Kubernetes node memory
 
 ---
 
@@ -670,15 +647,6 @@ Open Grafana and verify:
 ![Prometheus Targets](docs/12-Prometheus-Targets.png)
 
 The Prometheus Targets page verifies that the monitoring targets are successfully being scraped and are in the `UP` state.
-
----
-
-# What's Next
-
-- TLS on Ingress using cert-manager
-- Grafana dashboards provisioned as code instead of manual setup
-- CI pipeline to auto-build and push the image on every commit
-- Alertmanager routing beyond email (Slack, PagerDuty)
 
 ---
 
