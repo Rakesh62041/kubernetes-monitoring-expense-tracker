@@ -1,0 +1,6 @@
+# Kubernetes secrets
+k8s/secret.yaml
+
+# Environment files
+.env
+*.env

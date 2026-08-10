@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: expense-tracker-config
+  namespace: expense-tracker
+data:
+  SPRING_PROFILES_ACTIVE: "prod"
